@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login and Connect to Wallet</title>
+    <style>
+      /*CSS Styles for Both Forms*/
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        /*background color */
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="button"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input[type="button"] {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      input[type="button"]:hover {
+        background-color: #45a049;
+      }
+
+      h2 {
+        color: #007bff;
+      }
+
+      .error-message {
+        color: red;
+      }
+
+      #wallet-info {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
+  </head>
+  <body>
+   
+
+    <div class="container">
+      <h2>Connect to Wallet</h2>
+      <script>
+        /*connect using MetaMask */
+        async function connect() {
+          if (window.ethereum) {
+            await window.ethereum.request({
+              method: "eth_requestAccounts",
+            });
+            window.web3 = new Web3(window.ethereum);
+            const account = web3.eth.accounts;
+            // Get the current MetaMask selected/active wallet
+            const walletAddress = account.givenProvider.selectedAddress;
+            console.log(`Wallet: ${walletAddress}`);
+            document.getElementById(
+              "wallet-info"
+            ).innerText = `Wallet: ${walletAddress}`;
+
+            /*redirect */
+            window.location.href = "http://127.0.0.1:5501/cool/index.html";
+          } else {
+            console.log("No wallet");
+          }
+        }
+      </script>
+      <input type="button" value="Connect Wallet" onclick="connect();" />
+      <div id="wallet-info"></div>
+    </div>
+  </body>
+</html>
